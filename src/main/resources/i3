@@ -1,0 +1,333 @@
+# ===========================================================
+# i3-wm config
+# ===========================================================
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# start "Global variables"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# Pretty gaps
+gaps inner 20
+gaps outer 0
+# Set 'alt' as modifier key
+set $mod Mod1 
+floating_modifier Mod1
+# Font for window titles
+font pango:DroidSansMono 12
+# Remove ugly borders & enable i3-gaps integration
+# Excepton: enable borders for terminals
+for_window [class="^.*"] border pixel 0
+for_window [class="URxvt"] border pixel 1
+#hide_edge_borders smart
+set $border_color #729FCF
+client.focused $border_color $border_color $border_color $border_color $border_color
+client.unfocused $border_color $border_color $border_color $border_color $border_color
+client.focused_inactive $border_color $border_color $border_color $border_color $border_color
+# Give workspaces meaningful/pretty names
+set $workspace1 "1: Terminal "
+set $workspace2 "2: Browser "
+set $workspace3 "3: Code "
+set $workspace4 "4: ..."
+set $workspace5 "5: ..."
+set $workspace6 "6: ..."
+set $workspace7 "7: ..."
+set $workspace8 "8: ..."
+set $workspace9 "9: Social "
+set $workspace10 "10: Music "
+# Colors
+set $lightgray #AAAAAA
+set $gray      #484848
+set $gray2     #757575
+set $darkgray  #333333
+set $black     #000000
+set $white     #FFFFFF
+set $red       #FF0000
+set $blue      #005588
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# end
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# start "Bar"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+bar {
+        status_command i3blocks -c ~/.config/i3/i3blocks.conf
+        position top
+	font pango:DroidSansMono 12
+	colors {
+	    # Status line:
+	    statusline $lightgray
+	    background $black
+
+	    # Workspaces: border, background and text colors
+	    focused_workspace  $gray2    $darkgray $white
+	    active_workspace   $darkgray $darkgray $white
+	    inactive_workspace $black    $black    $lightgray
+	    urgent_workspace   $red      $red      $white
+        }
+}
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# end
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# start "Rules"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# Assign floating windows
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [class="Pinta"] floating enable
+for_window [class="Nautilus"] floating enable
+for_window [class="Eog"] floating enable
+for_window [class="File-roller"] floating enable
+for_window [title="Preferences$"] floating enable
+for_window [class="Gnome-control-center"] floating enable
+# Assign windows
+assign [class="Google-chrome"] $workspace2
+# Move windows where assign did not work
+for_window [class="Spotify"] move to workspace $workspace10
+# for_window [class="Google-chrome"] focus
+# for_window [class="jetbrains-idea"] focus
+# for_window [class="jetbrains-pycharm"] focus
+# for_window [class="Spotify"] focus
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# end
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# start "Frequent/specific shortcuts"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# Kill window
+bindsym $mod+d kill
+bindsym F4 kill
+# Screenshot
+bindsym Print exec scrot -e 'xclip -selection clipboard -t "image/png" < $f'
+# Interactive screenshot
+#bindsym Shift+Print 
+#bindsym --release Shift+Print exec scrot -s -e 'xclip -selection clipboard -t "image/png" < $f'
+bindsym --release Shift+Print exec import png:- | xclip -selection c -t image/png
+# Open new github issue
+bindsym $mod+i exec xdg-open "https://github.com/EdwinVanRooij/dotfiles/issues?utf8=%E2%9C%93&q=-label:%22low priority%22+-label:future+-label:enhancement+is:open+is:issue"
+bindsym $mod+Shift+i exec xdg-open "https://github.com/EdwinVanRooij/dotfiles/issues/new"
+# Open packtpub
+bindsym $mod+p exec xdg-open "https://www.packtpub.com/packt/offers/free-learning"
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+bindsym $mod+v split toggle
+# reload the configuration file
+bindsym $mod+Shift+r restart
+# Frequent applications
+bindsym F1 exec rofi -show run -display-run ">"
+bindsym F7 exec google-chrome-stable
+bindsym $mod+r exec rofi -show run -display-run ">"
+bindsym Super_L exec --no-startup-id i3-dmenu-desktop --dmenu='rofi -dmenu'
+bindsym Super_R exec --no-startup-id i3-dmenu-desktop --dmenu='rofi -dmenu'
+# Alt tab -> recent workspace
+bindsym $mod+Tab workspace back_and_forth
+bindsym $mod+Shift+Tab move window to workspace back_and_forth
+
+# Terminal
+bindsym Control+space exec urxvt -e tmux
+bindsym $mod+t exec urxvt
+
+# Alter mode
+bindsym $mod+a mode "$alter"
+# System mode
+bindsym $mod+s mode "$system"
+# Commons mode
+bindsym $mod+c mode "$commons"
+# Output mode
+bindsym $mod+o mode "$output"
+# Backlight/brightness mode
+bindsym $mod+b mode "$backlight"
+# Music mode
+bindsym $mod+m mode "$music"
+
+# Volume
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 5%+ && paplay /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 5%- && paplay /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
+bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master toggle-mute # Toggle muting
+bindsym XF86MonBrightnessDown exec --no-startup-id sudo /home/eddy/dotfiles/scripts/brightness/decrease-brightness.sh
+bindsym XF86MonBrightnessUp exec --no-startup-id sudo /home/eddy/dotfiles/scripts/brightness/increase-brightness.sh
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# end
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# start "Navigation"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# 'Inside workspace' navigation
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+# 'Outside workspace' navigation
+bindsym $mod+1 workspace $workspace1
+bindsym $mod+2 workspace $workspace2
+bindsym $mod+3 workspace $workspace3
+bindsym $mod+4 workspace $workspace4
+bindsym $mod+5 workspace $workspace5
+bindsym $mod+6 workspace $workspace6
+bindsym $mod+7 workspace $workspace7
+bindsym $mod+8 workspace $workspace8
+bindsym $mod+9 workspace $workspace9
+bindsym $mod+0 workspace $workspace10
+# Next/previous workspace
+bindsym $mod+Control+h workspace prev
+bindsym $mod+Control+l workspace next
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# end
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# start "Movement"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# Move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+bindsym $mod+Shift+1 move window to workspace $workspace1
+bindsym $mod+Shift+2 move window to workspace $workspace2
+bindsym $mod+Shift+3 move window to workspace $workspace3
+bindsym $mod+Shift+4 move window to workspace $workspace4
+bindsym $mod+Shift+5 move window to workspace $workspace5
+bindsym $mod+Shift+6 move window to workspace $workspace6
+bindsym $mod+Shift+7 move window to workspace $workspace7
+bindsym $mod+Shift+8 move window to workspace $workspace8
+bindsym $mod+Shift+9 move window to workspace $workspace9
+bindsym $mod+Shift+0 move window to workspace $workspace10
+
+bindsym $mod+Control+Shift+h move window to workspace prev
+bindsym $mod+Control+Shift+l move window to workspace next
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# end
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# start "Autostart"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# Set keyboard layout
+exec_always setxkbmap -option numpad:microsoft
+# Set redshift (night mode light)
+exec_always redshift
+# Set caps to esc
+exec_always xmodmap ~/.Xmodmap
+# Set x resources
+exec_always xrdb ~/.Xresources
+# Init composition manager
+exec compton --config ~/.config/compton.conf
+exec fish /home/eddy/dotfiles/scripts/background/picker.fish
+# Start applications
+exec --no-startup-id nm-applet
+exec --no-startup-id /usr/lib64/polkit-gnome/polkit-gnome-authentication-agent-1
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# end
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# start "Modes"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# Alter window
+set $alter Alter: (h)orizontal, (Shift+h)orizontal, (v)ertical, (Shift+v)ertical
+mode "$alter" {
+        # Pressing left will grow the window’s width.
+        bindsym h resize grow width 10 px or 10 ppt
+
+        # Pressing right will shrink the window’s width.
+        bindsym Shift+H resize shrink width 10 px or 10 ppt
+
+        # Pressing up will grow the window’s height.
+        bindsym v resize grow height 10 px or 10 ppt
+
+        # Pressing down will shrink the window’s height.
+        bindsym Shift+V resize shrink height 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+set $system System: (l)ock, (e)xit, (Shift+s)leep, (h)ibernate, (r)eboot, (s)hutdown
+mode "$system" {
+    bindsym l exec --no-startup-id ~/dotfiles/scripts/i3lock-fancy, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym Shift+s exec --no-startup-id ~/dotfiles/scripts/i3lock-fancy && systemctl suspend, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym s exec --no-startup-id systemctl poweroff, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+set $commons Commons: (m)usic, (b)rowser, (s)ocial, (f)ile explorer, (t)erminal emulator
+mode "$commons" {
+    bindsym m exec spotify
+    bindsym t exec urxvt
+    bindsym s exec /home/eddy/franz.AppImage
+    bindsym f exec nautilus
+    bindsym b exec google-chrome-stable
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+set $music Music: (r)un, h, l, j, k, (m)ute
+mode "$music" {
+    bindsym r exec spotify
+
+    bindsym l exec --no-startup-id amixer -D pulse sset Master 15%+ && paplay /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
+    bindsym h exec --no-startup-id amixer -D pulse sset Master 15%- && paplay /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
+
+    bindsym k exec --no-startup-id amixer -D pulse sset Master 15%+ && paplay /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
+    bindsym j exec --no-startup-id amixer -D pulse sset Master 15%- && paplay /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
+
+    bindsym m exec --no-startup-id amixer -D pulse sset Master toggle-mute # Toggle muting
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+set $output Output: h, l, j, k
+mode "$output" {
+    bindsym h exec i3-msg move workspace to output left
+    bindsym l exec i3-msg move workspace to output right
+    bindsym k exec i3-msg move workspace to output up
+    bindsym j exec i3-msg move workspace to output down
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+set $backlight Backlight/Brightness: (s)creen, (k)eyboard
+mode "$backlight" {
+    bindsym s mode "$screen"
+    bindsym k mode "$keyboard"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+set $screen Screen Brightness: j, k
+mode "$screen" {
+    bindsym j exec --no-startup-id sudo /home/eddy/dotfiles/scripts/brightness/decrease-brightness.sh
+    bindsym k exec --no-startup-id sudo /home/eddy/dotfiles/scripts/brightness/increase-brightness.sh
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+set $keyboard Keyboard Backlight: j, k
+mode "$keyboard" {
+    bindsym k exec sudo /home/eddy/dotfiles/scripts/keyboard-backlight.fish up
+    bindsym j exec sudo /home/eddy/dotfiles/scripts/keyboard-backlight.fish down
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# end
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
