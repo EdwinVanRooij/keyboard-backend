@@ -17,7 +17,6 @@ public class App {
 
     }
 
-
     private static void enableCORS() {
         before((Filter) (request, response) -> {
             response.header("Access-Control-Allow-Origin", "*");

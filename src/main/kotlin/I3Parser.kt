@@ -4,9 +4,9 @@ import java.util.*
 
 class I3Parser {
 
-    private val CONTROL = "Control";
-    private val SHIFT = "Shift";
-    private val ALT = "Alt";
+    private val CONTROL = "Control"
+    private val SHIFT = "Shift"
+    private val ALT = "Alt"
 
     private val fileName: String = "i3config"
     private val i3Modifier: String = ALT
