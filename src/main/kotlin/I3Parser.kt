@@ -2,10 +2,14 @@ import java.io.File
 import java.util.*
 
 
-class I3ParserKotlin : I3Parser {
+class I3Parser {
+
+    private val CONTROL = "Control";
+    private val SHIFT = "Shift";
+    private val ALT = "Alt";
 
     private val fileName: String = "i3config"
-    private val i3Modifier: String = Shortcut.ALT
+    private val i3Modifier: String = ALT
     private var keyboard: Map<String, Shortcut> = HashMap()
 
     // Define what happens after the constructor was called
@@ -50,13 +54,13 @@ class I3ParserKotlin : I3Parser {
 
         // Check if control is used
         if (line.matches("Control\\+.*".toRegex())) {
-            s.addEnhancement(Shortcut.CONTROL)
+            s.enhancements.add(CONTROL)
             line = line.substring(8) // Cut modifier out
         }
 
         // Check if shift is used
         if (line.matches("Shift\\+.*".toRegex())) {
-            s.addEnhancement(Shortcut.SHIFT)
+            s.enhancements.add(SHIFT)
             line = line.substring(6) // Cut modifier out
         }
 
@@ -77,7 +81,7 @@ class I3ParserKotlin : I3Parser {
         return s
     }
 
-    override fun getMapping(d: String?): Shortcut? {
+    fun getMapping(d: String?): Shortcut? {
         return keyboard[d]
     }
 }

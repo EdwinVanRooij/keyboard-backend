@@ -13,8 +13,7 @@ public class I3Route implements Route {
 
     public I3Route() throws FileNotFoundException {
         gson = new Gson();
-//        p = new I3ParserJava();
-        p = new I3ParserKotlin();
+        p = new I3Parser();
     }
 
     @Override
