@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 public class I3Parser {
 
+    private String filename = "i3config";
+
     private static String i3Modifier = Shortcut.ALT;
 
     private Map<String, Shortcut> keyboard;
@@ -20,7 +22,7 @@ public class I3Parser {
         Map<String, Shortcut> result = new HashMap<>();
 
         // Get file from resources folder
-        File file = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("i3")).getFile());
+        File file = new File(Objects.requireNonNull(getClass().getClassLoader().getResource(filename)).getFile());
 
         // Iterate every line
         try (Scanner scanner = new Scanner(file)) {
