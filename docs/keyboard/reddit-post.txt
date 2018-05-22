@@ -1,0 +1,19 @@
+I'm currently working on a shortcut visualizer in the complete sense of the phrase: a program that parses your dotfiles, creates an API to access these in human-friendly format, and a website which shows these (many more applications possible, an analyzer for example).
+
+My question is, would anybody be interested in this project if I'd open source it?
+
+For a better understanding of what the application does, here's a demo:
+https://www.youtube.com/watch?v=j4wdvqoAykg&feature=youtu.be
+
+And a complete overview of the goal of the project:
+The goal of this project is to generally become more efficient and smooth with the keyboard while using my laptop.
+
+Because I've learned to use so many different shortcuts for so many different applications, it's become increasingly hard to make sense out of it and to stay consistent between different applications for the same use case (i.e. moving to the left, splitting a window, selecting a word, etc.).
+
+To regain consistency and to make sense out of every shortcut, I've come to require some kind of documented complete overview of every shortcut. This will help me to separate different interpretation levels of shorcuts. For example: window-manager-level shortcuts should have a different modifier key than application-level shortcuts.
+
+Perhaps it'd be ideal to have an application in which I can browse through different interpretation levels, select/hover a key with my mouse (ironic, isn't it), and then see what it's mapped to. 
+
+For a first step, however, it'd be good to have a basic overview of every mapped shortcut.
+
+I'd love to hear your input about this. And perhaps this may not be the right subreddit for it, so if anybody could redirect me, that'd be great. I figured this was a good starting point as many people use many dotfiles here.

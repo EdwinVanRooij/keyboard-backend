@@ -42,7 +42,7 @@ class I3Parser : DotfileParser() {
     }
 
     private fun parseShortcut(linetje: String): I3Shortcut {
-        var enhancements = arrayListOf<String>()
+        val enhancements = mutableListOf<String>()
 
         // Cut the prefix 'bindsym'
         var line = linetje.substring(8)
@@ -69,6 +69,7 @@ class I3Parser : DotfileParser() {
 
         // Declare remainder of split words
         val descriptionList: List<String> = line.split("\\s".toRegex()).drop(1)
+        println(descriptionList)
 
         // Set the action with the remainder, if any
         var action = ""
