@@ -26,3 +26,25 @@ https://github.com/EdwinVanRooij/keyboard
 
 User story:
 - As Edwin, I want to see what shortcut(s) 'D' is mapped to on i3 interpretation level, so that I have a user-friendly way to browse through my shortcuts on that level.
+
+-- Update front-end:
+Front end should no longer just gives 'key' and 'enhancements' should be included in the request.
+
+Website should become more intuitive like this.
+
+Example scenario #1:
+- Hover 'd'
+--> See mapping for 'c'
+
+Example scenario #2:
+- Click 'ctrl'
+- Hover 'd'
+--> See mapping for 'ctrl+c'
+
+Example scenario #3:
+- Click 'ctrl'
+- Click 'shift'
+- Hover 'd'
+--> See mapping for 'ctrl+shift+c'
+
+This means, in the backend, we will receive shortcuts identified by a 'KeyCombination' rather than a single key. A key combination can be 'd', but can be 'ctrl,d' as well.
