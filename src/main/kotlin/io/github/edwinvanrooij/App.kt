@@ -1,10 +1,14 @@
-import spark.Filter
+package io.github.edwinvanrooij
 
+import spark.Filter
 import spark.Spark.*
+import io.github.edwinvanrooij.i3.I3Route
+import io.github.edwinvanrooij.vim.VimRoute
 
 fun main(args: Array<String>) {
-    enableCORS();
+    enableCORS()
     get("/getI3Mapping", I3Route())
+    get("/getVimMapping", VimRoute())
 }
 
 private fun enableCORS() {
