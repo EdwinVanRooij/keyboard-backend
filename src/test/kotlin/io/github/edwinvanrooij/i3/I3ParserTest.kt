@@ -1,16 +1,13 @@
 package io.github.edwinvanrooij.i3
 
-import io.github.edwinvanrooij.generic.DotfileParser
-import io.github.edwinvanrooij.generic.Shortcut
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 internal class I3ParserTest {
 
-    private lateinit var parser: DotfileParser
+    private lateinit var parser: I3Parser
 
     @BeforeEach
     fun setUp() {

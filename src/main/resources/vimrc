@@ -1,1 +1,9 @@
-/home/eddy/.vimrc
+" Sample rows
+map <space> \
+nnoremap f :action ShowIntentionActions<cr>
+nnoremap D daw
+nnoremap <silent> vi] /]<CR>:noh<cr>vi]
+vnoremap <c-a> <esc>ggVG
+cmap w!! w !sudo tee % > /dev/null
+inoremap <c-a> <esc>ggVG
+" end sample rows

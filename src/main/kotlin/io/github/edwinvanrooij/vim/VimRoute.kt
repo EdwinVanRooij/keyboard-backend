@@ -11,9 +11,10 @@ class VimRoute : Route {
     private val parser = VimParser()
 
     override fun handle(request: Request?, response: Response?): Any {
-        val key = request?.queryParams("key")
-        if (key == null) throw Exception("Key received is null or empty.")
-        val shortcut = parser.getMapping(key)
-        return gson.toJson(shortcut)
+        TODO()
+//        val key = request?.queryParams("key")
+//        if (key == null) throw Exception("Key received is null or empty.")
+//        val shortcut = parser.getMapping(key)
+//        return gson.toJson(shortcut)
     }
 }

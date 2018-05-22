@@ -1,10 +1,24 @@
 package io.github.edwinvanrooij.vim
 
-import io.github.edwinvanrooij.generic.Shortcut
+import java.util.*
+
+val MODE_NORMAL = "normal"
+val MODE_INSERT = "insert"
+val MODE_VISUAL = "visual"
+val MODE_COMMAND = "command"
+
+val LEADER_KEY = "leader key"
+
+val SHIFT = "shift"
+val CONTROL = "control"
+val ALT = "alt"
 
 class VimShortcut(
         var mode: String, // the mode in which the shortcut is executed
-        var enhancements: MutableList<String>, // additional enhancements (i.e. control/shift)
-        character: String,
-        action: String
-) : Shortcut(character = character, action = action)
+        var keyCombination: KeyCombination, // additional enhancements (i.e. control/shift)
+        val action: String // executed action
+) {
+    override fun toString(): String {
+        return "VimShortcut(mode='$mode', keyCombination=$keyCombination, action='$action')"
+    }
+}

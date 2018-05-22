@@ -3,13 +3,11 @@ package io.github.edwinvanrooij.i3
 import io.github.edwinvanrooij.ALT
 import io.github.edwinvanrooij.CONTROL
 import io.github.edwinvanrooij.SHIFT
-import io.github.edwinvanrooij.generic.DotfileParser
-import io.github.edwinvanrooij.generic.Shortcut
 import java.io.File
 import java.util.*
 
 
-class I3Parser : DotfileParser() {
+class I3Parser  {
 
     private val fileName: String = "i3config"
     private val i3Modifier: String = ALT
@@ -69,7 +67,6 @@ class I3Parser : DotfileParser() {
 
         // Declare remainder of split words
         val descriptionList: List<String> = line.split("\\s".toRegex()).drop(1)
-        println(descriptionList)
 
         // Set the action with the remainder, if any
         var action = ""
@@ -83,7 +80,7 @@ class I3Parser : DotfileParser() {
         return I3Shortcut(i3Modifier, enhancements, character, action)
     }
 
-    override fun getMapping(d: String): Shortcut? {
+    fun getMapping(d: String): I3Shortcut? {
         return keyboard[d.toLowerCase()]
     }
 }
