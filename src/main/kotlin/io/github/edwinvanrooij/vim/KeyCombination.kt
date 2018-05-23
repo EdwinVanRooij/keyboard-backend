@@ -17,7 +17,7 @@ class KeyCombination(
 
         other as KeyCombination
 
-        if (mode != other.mode) return false
+        if (mode.toLowerCase() != other.mode.toLowerCase()) return false
         if (!Arrays.equals(keys, other.keys)) return false
 
         return true
