@@ -23,11 +23,17 @@ internal class VimParserTest {
 
     @Test
     fun getMapping() {
-        val keyCombinationShiftD = KeyCombination(arrayOf("shift", "d"))
-
-        val vimShortcutShiftD: VimShortcut? = parser.getMapping(keyCombinationShiftD)
-
-        assertNotNull(vimShortcutShiftD)
-        println(vimShortcutShiftD)
+        val keyCombinations = arrayOf(
+                KeyCombination(arrayOf("f")),
+                KeyCombination(arrayOf("Shift", "d")),
+                KeyCombination(arrayOf("v", "i", "]")),
+                KeyCombination(arrayOf("Control", "a")),
+                KeyCombination(arrayOf("w", "!", "!"))
+        )
+        for (k in keyCombinations) {
+            val shortCut = parser.getMapping(k)
+            println(shortCut)
+            assertNotNull(shortCut)
+        }
     }
 }

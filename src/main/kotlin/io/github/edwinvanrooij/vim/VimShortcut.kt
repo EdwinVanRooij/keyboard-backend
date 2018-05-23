@@ -9,9 +9,9 @@ val MODE_COMMAND = "command"
 
 val LEADER_KEY = "leader key"
 
-val SHIFT = "shift"
-val CONTROL = "control"
-val ALT = "alt"
+val SHIFT = "Shift"
+val CONTROL = "Control"
+val ALT = "Alt"
 
 class VimShortcut(
         var mode: String, // the mode in which the shortcut is executed

@@ -1,6 +1,5 @@
 package io.github.edwinvanrooij.vim
 
-import io.github.edwinvanrooij.SHIFT
 import java.io.File
 import java.util.*
 
@@ -26,9 +25,8 @@ class VimParser {
             val line = scanner.nextLine()
 
             if (isMapping(line)) {
-                val keyCombination = parseVimShortcut(line)
-                println(keyCombination)
-//                result.put(keyCombination, vimShortCut)
+                val shortcut = parseVimShortcut(line)
+                result[shortcut.keyCombination] = shortcut
             }
         }
 
@@ -36,30 +34,35 @@ class VimParser {
     }
 
 
-    private fun parseVimShortcut(line: String): VimShortcut {
+    private fun parseVimShortcut(rawLine: String): VimShortcut {
+        // Strip silent from line
+        val line = rawLine.replace("<silent>\\s".toRegex(), "")
+
+        fun listToString(list: List<String>): String {
+            return when {
+                list.size == 1 -> list[0]
+                else -> {
+                    var result = ""
+                    for (s in list) {
+                        result += " $s"
+                    }
+                    result
+                }
+            }
+        }
+
         val vimBinding: String
         val vimCommand: String
         val vimAction: String
 
         // Set variables
         vimBinding = line.split("\\s".toRegex())[0]
-        if (line.split("\\s".toRegex())[0] == "<silent>") {
-            // Second word is silent -- omit the word
-            vimCommand = line.split("\\s".toRegex())[2]
-            vimAction = line.split("\\s".toRegex()).drop(3).joinToString { " " }
-        } else {
-            // Second word is not silent -- init normally
-            vimCommand = line.split("\\s".toRegex())[1]
-            vimAction = line.split("\\s".toRegex()).drop(2).joinToString { " " }
-        }
-
-        println("Vimbinding is $vimBinding")
-        println("Vimcommand is $vimCommand")
-        println("Vimaction is $vimAction")
+        vimCommand = line.split("\\s".toRegex())[1]
+        vimAction = listToString(line.split("\\s".toRegex()).drop(2))
 
         // Parse leader mapping (outlier)
         fun parseLeaderMapping(): VimShortcut? {
-            if (vimBinding.toLowerCase() == "map" && vimAction[0] == "\\") {
+            if (vimBinding.toLowerCase() == "map" && vimAction == "\\") {
                 return VimShortcut(MODE_NORMAL, KeyCombination(arrayOf(vimCommand)), vimAction)
             }
             return null
@@ -79,21 +82,30 @@ class VimParser {
 
         // get the key combination
         fun parseKeyCombination(): KeyCombination {
-            // Simplest case first: Only one character
-            if (vimCommand.length == 1) {
-                // Return the character if it's lowercase
-                return if (vimCommand.toLowerCase() == vimCommand)
-                    KeyCombination(arrayOf(vimCommand))
-                // Add a shift if it's uppercase
-                else KeyCombination(arrayOf(SHIFT, vimCommand))
+            fun parseSingleAlphaNumeric(str: String): Array<String> {
+                return if (str.toLowerCase() == str)
+                    arrayOf(str)
+                else
+                    arrayOf(SHIFT, str.toLowerCase())
             }
+            if (vimCommand.length == 1) return KeyCombination(parseSingleAlphaNumeric(vimCommand))
 
             // Multiple characters
+            if (vimCommand.matches("<c-[a-zA-Z]>".toRegex())) {
+                return KeyCombination(arrayOf(CONTROL) + parseSingleAlphaNumeric(vimCommand.substring(3, 4)))
+            }
 
-            TODO()
+            // Parse each character by itself
+            var result = mutableListOf<String>()
+            for (c in vimCommand) {
+                result = (result + (parseSingleAlphaNumeric(c.toString()))).toMutableList()
+            }
+            return KeyCombination(result.toTypedArray())
         }
 
-        return VimShortcut(parseMode(), parseKeyCombination(), vimAction)
+        val s = VimShortcut(parseMode(), parseKeyCombination(), vimAction)
+        println(s)
+        return s
     }
 
     private fun isMapping(line: String): Boolean {
