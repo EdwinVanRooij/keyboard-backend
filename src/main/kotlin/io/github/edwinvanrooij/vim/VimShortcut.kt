@@ -18,11 +18,10 @@ val ESC = "Esc"
 val BACKSPACE = "Backspace"
 
 class VimShortcut(
-        var mode: String, // the mode in which the shortcut is executed
         var keyCombination: KeyCombination, // additional enhancements (i.e. control/shift)
         val action: String // executed action
 ) {
     override fun toString(): String {
-        return "VimShortcut(mode='$mode', keyCombination=$keyCombination, action='$action')"
+        return "VimShortcut(keyCombination=$keyCombination, action='$action')"
     }
 }

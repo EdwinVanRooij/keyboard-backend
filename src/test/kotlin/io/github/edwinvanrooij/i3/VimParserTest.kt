@@ -24,12 +24,13 @@ internal class VimParserTest {
     @Test
     fun getMapping() {
         val keyCombinations = arrayOf(
-                KeyCombination(arrayOf("Leader", "c")),
-                KeyCombination(arrayOf("f")),
-                KeyCombination(arrayOf("Shift", "d")),
-                KeyCombination(arrayOf("v", "i", "]")),
-                KeyCombination(arrayOf("Control", "a")),
-                KeyCombination(arrayOf("w", "!", "!"))
+                KeyCombination("normal", arrayOf("Leader", "c")),
+                KeyCombination("normal", arrayOf("f")),
+                KeyCombination("normal", arrayOf("Shift", "d")),
+                KeyCombination("normal", arrayOf("v", "i", "]")),
+                KeyCombination("insert", arrayOf("Control", "a")),
+                KeyCombination("visual", arrayOf("Control", "a")),
+                KeyCombination("command", arrayOf("w", "!", "!"))
         )
         for (k in keyCombinations) {
             val shortCut = parser.getMapping(k)
