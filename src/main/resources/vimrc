@@ -1,7 +1,8 @@
 " Sample rows
 map <space> \
 nnoremap f :action ShowIntentionActions<cr>
-nnoremap D daw
+nnoremap D daw)
+nnoremap <leader>c C
 nnoremap <silent> vi] /]<CR>:noh<cr>vi]
 vnoremap <c-a> <esc>ggVG
 cmap w!! w !sudo tee % > /dev/null

@@ -7,7 +7,8 @@ import java.util.*
 @Suppress("JoinDeclarationAndAssignment")
 class VimParser {
 
-    private val fileName: String = "vimrc"
+    private val fileName: String = "vimrc-realdeal"
+    //    private val fileName: String = "vimrc"
     private var keyboard: Map<KeyCombination, VimShortcut> = HashMap()
 
     // Define what happens after the constructor was called
@@ -41,9 +42,10 @@ class VimParser {
         fun listToString(list: List<String>): String {
             return when {
                 list.size == 1 -> list[0]
+                list.size == 2 -> "${list[0]} ${list[1]}"
                 else -> {
-                    var result = ""
-                    for (s in list) {
+                    var result = list[0]
+                    for (s in list.drop(1)) {
                         result += " $s"
                     }
                     result
@@ -91,8 +93,16 @@ class VimParser {
             if (vimCommand.length == 1) return KeyCombination(parseSingleAlphaNumeric(vimCommand))
 
             // Multiple characters
-            if (vimCommand.matches("<c-[a-zA-Z]>".toRegex())) {
-                return KeyCombination(arrayOf(CONTROL) + parseSingleAlphaNumeric(vimCommand.substring(3, 4)))
+            when {
+                vimCommand.matches("<c-[a-z0-9]>".toRegex(RegexOption.IGNORE_CASE)) -> return KeyCombination(arrayOf(CONTROL) + parseSingleAlphaNumeric(vimCommand.substring(3, 4)))
+                vimCommand.matches("<leader>.*".toRegex(RegexOption.IGNORE_CASE)) -> return KeyCombination(arrayOf(LEADER) + parseSingleAlphaNumeric(vimCommand.substring(8, 9)))
+                vimCommand.matches("<tab>".toRegex(RegexOption.IGNORE_CASE)) -> return KeyCombination(arrayOf(TAB))
+                vimCommand.matches("<s-tab>".toRegex(RegexOption.IGNORE_CASE)) -> return KeyCombination(arrayOf(SHIFT, TAB))
+                vimCommand.matches("<esc>".toRegex(RegexOption.IGNORE_CASE)) -> return KeyCombination(arrayOf(ESC))
+                vimCommand.matches("<backspace>".toRegex(RegexOption.IGNORE_CASE)) -> return KeyCombination(arrayOf(BACKSPACE))
+                vimCommand.matches("<s-c-\\w>".toRegex(RegexOption.IGNORE_CASE)) -> return KeyCombination(arrayOf(SHIFT, CONTROL) + parseSingleAlphaNumeric(vimCommand.substring(5, 6)))
+                vimCommand.matches("<f\\w>".toRegex(RegexOption.IGNORE_CASE)) -> return KeyCombination(arrayOf(vimCommand.substring(1, 3).toLowerCase()))
+                vimCommand.matches("<s-f\\w>".toRegex(RegexOption.IGNORE_CASE)) -> return KeyCombination(arrayOf(SHIFT, vimCommand.substring(3, 5).toLowerCase()))
             }
 
             // Parse each character by itself

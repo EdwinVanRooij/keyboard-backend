@@ -12,6 +12,10 @@ val LEADER_KEY = "leader key"
 val SHIFT = "Shift"
 val CONTROL = "Control"
 val ALT = "Alt"
+val LEADER = "Leader"
+val TAB = "Tab"
+val ESC = "Esc"
+val BACKSPACE = "Backspace"
 
 class VimShortcut(
         var mode: String, // the mode in which the shortcut is executed

@@ -24,6 +24,7 @@ internal class VimParserTest {
     @Test
     fun getMapping() {
         val keyCombinations = arrayOf(
+                KeyCombination(arrayOf("Leader", "c")),
                 KeyCombination(arrayOf("f")),
                 KeyCombination(arrayOf("Shift", "d")),
                 KeyCombination(arrayOf("v", "i", "]")),
