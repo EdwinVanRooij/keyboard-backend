@@ -28,5 +28,4 @@ class KeyCombination(
         result = 31 * result + Arrays.hashCode(keys)
         return result
     }
-
 }
