@@ -1,4 +1,4 @@
-package io.github.edwinvanrooij.i3
+package io.github.edwinvanrooij.vim
 
 import io.github.edwinvanrooij.vim.VimKeyCombination
 import io.github.edwinvanrooij.vim.VimParser

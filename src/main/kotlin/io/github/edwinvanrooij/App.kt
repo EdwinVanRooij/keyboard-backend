@@ -1,8 +1,8 @@
 package io.github.edwinvanrooij
 
+import io.github.edwinvanrooij.i3.I3Route
 import spark.Filter
 import spark.Spark.*
-import io.github.edwinvanrooij.i3.I3Route
 import io.github.edwinvanrooij.vim.VimRoute
 
 fun main(args: Array<String>) {

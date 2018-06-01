@@ -1,4 +1,4 @@
-package io.github.edwinvanrooij.i3
+package io.github.edwinvanrooij.tmux
 
 import io.github.edwinvanrooij.ALT
 import io.github.edwinvanrooij.CONTROL
@@ -8,19 +8,18 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class I3Parser {
+class TmuxParser {
 
     private val fileName: String = "i3config"
-    private val i3Modifier: String = ALT
-    private var keyboard: Map<I3KeyCombination, I3Shortcut> = HashMap()
+    private var keyboard: Map<TmuxKeyCombination, TmuxShortcut> = HashMap()
 
     // Define what happens after the constructor was called
     init {
         keyboard = parseDotfile()
     }
 
-    private fun parseDotfile(): Map<I3KeyCombination, I3Shortcut> {
-        val result = HashMap<I3KeyCombination, I3Shortcut>()
+    private fun parseDotfile(): Map<TmuxKeyCombination, TmuxShortcut> {
+        val result = HashMap<TmuxKeyCombination, TmuxShortcut>()
 
         val file = File(Objects.requireNonNull(javaClass.classLoader.getResource(fileName)).file)
 
@@ -29,7 +28,7 @@ class I3Parser {
             val line = scanner.nextLine()
 
             // Check if the line is a shortcut
-            if (line.matches("bindsym.*".toRegex())) {
+            if (line.matches("bind.*".toRegex())) {
 
                 // Parse the shortcut
                 val s = parseShortcut(line)
@@ -40,7 +39,7 @@ class I3Parser {
         return result
     }
 
-    private fun parseShortcut(linetje: String): I3Shortcut {
+    private fun parseShortcut(linetje: String): TmuxShortcut {
         val array = ArrayList<String>()
 
         // Cut the prefix 'bindsym'
@@ -49,7 +48,7 @@ class I3Parser {
         // Check if it is prepended by the modifier key
         if (line.matches("\\\$mod\\+.*".toRegex())) {
             line = line.substring(5) // Cut modifier out
-            array.add(i3Modifier)
+            array.add(ALT)
         }
 
         // Check if control is used
@@ -80,10 +79,10 @@ class I3Parser {
                 action += " $item"
             }
         }
-        return I3Shortcut(I3KeyCombination(array.toTypedArray()), action)
+        return TmuxShortcut(TmuxKeyCombination(array.toTypedArray()), action)
     }
 
-    fun getMapping(keyCombination: I3KeyCombination): I3Shortcut? {
+    fun getMapping(keyCombination: TmuxKeyCombination): TmuxShortcut? {
         return keyboard[keyCombination]
     }
 }

@@ -28,11 +28,13 @@ internal class I3ParserTest {
                 I3KeyCombination(arrayOf(ALT, "d")),
                 I3KeyCombination(arrayOf(ALT, CONTROL, "l")),
                 I3KeyCombination(arrayOf(ALT, CONTROL, "h")),
-                I3KeyCombination(arrayOf("F7"))
+                I3KeyCombination(arrayOf("F7")),
+                I3KeyCombination(arrayOf("F1"))
         )
         for (k in keyCombinations) {
             val shortCut = parser.getMapping(k)
             assertNotNull(shortCut)
+            println(shortCut?.action)
         }
     }
 }
