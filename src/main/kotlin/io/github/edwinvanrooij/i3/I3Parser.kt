@@ -5,21 +5,22 @@ import io.github.edwinvanrooij.CONTROL
 import io.github.edwinvanrooij.SHIFT
 import java.io.File
 import java.util.*
+import kotlin.collections.ArrayList
 
 
-class I3Parser  {
+class I3Parser {
 
     private val fileName: String = "i3config"
     private val i3Modifier: String = ALT
-    private var keyboard: Map<String, I3Shortcut> = HashMap()
+    private var keyboard: Map<I3KeyCombination, I3Shortcut> = HashMap()
 
     // Define what happens after the constructor was called
     init {
         keyboard = parseDotfile()
     }
 
-    private fun parseDotfile(): Map<String, I3Shortcut> {
-        val result = HashMap<String, I3Shortcut>()
+    private fun parseDotfile(): Map<I3KeyCombination, I3Shortcut> {
+        val result = HashMap<I3KeyCombination, I3Shortcut>()
 
         val file = File(Objects.requireNonNull(javaClass.classLoader.getResource(fileName)).file)
 
@@ -32,7 +33,7 @@ class I3Parser  {
 
                 // Parse the shortcut
                 val s = parseShortcut(line)
-                result[s.character.toLowerCase()] = s
+                result[s.keyCombination] = s
             }
         }
 
@@ -42,28 +43,34 @@ class I3Parser  {
     private fun parseShortcut(linetje: String): I3Shortcut {
         val enhancements = mutableListOf<String>()
 
+        val array = ArrayList<String>()
+
         // Cut the prefix 'bindsym'
         var line = linetje.substring(8)
 
         // Check if it is prepended by the modifier key
         if (line.matches("\\\$mod\\+.*".toRegex())) {
             line = line.substring(5) // Cut modifier out
+            array.add(i3Modifier)
         }
 
         // Check if control is used
         if (line.matches("Control\\+.*".toRegex())) {
             enhancements.add(CONTROL)
             line = line.substring(8) // Cut modifier out
+            array.add(CONTROL)
         }
 
         // Check if shift is used
         if (line.matches("Shift\\+.*".toRegex())) {
             enhancements.add(SHIFT)
             line = line.substring(6) // Cut modifier out
+            array.add(SHIFT)
         }
 
         // Finally, get the primary key
         val character = line.split("\\s".toRegex())[0]
+        array.add(character)
 
         // Declare remainder of split words
         val descriptionList: List<String> = line.split("\\s".toRegex()).drop(1)
@@ -77,10 +84,10 @@ class I3Parser  {
                 action += " $item"
             }
         }
-        return I3Shortcut(i3Modifier, enhancements, character, action)
+        return I3Shortcut(I3KeyCombination(array.toTypedArray()), action)
     }
 
-    fun getMapping(d: String): I3Shortcut? {
-        return keyboard[d.toLowerCase()]
+    fun getMapping(keyCombination: I3KeyCombination): I3Shortcut? {
+        return keyboard[keyCombination]
     }
 }

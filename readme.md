@@ -19,18 +19,14 @@ https://github.com/EdwinVanRooij/keyboard
 
 ## The Ideal Application: Features
 - Browse through interpretation levels
-- Hover over a key to see every combination it's used in
+- Hover over a key to see what it's mapped to in respective interpretation level
+- Click a modifier key (ctrl, shift, alt, etc?), then hover over keys to see if it the combination does something
 
 - Parses configuration files and automatically shows them in the correct interpretation level
 
 
 User story:
 - As Edwin, I want to see what shortcut(s) 'D' is mapped to on i3 interpretation level, so that I have a user-friendly way to browse through my shortcuts on that level.
-
--- Update front-end:
-Front end should no longer just gives 'key' and 'enhancements' should be included in the request.
-
-Website should become more intuitive like this.
 
 Example scenario #1:
 - Hover 'd'

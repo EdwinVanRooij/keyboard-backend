@@ -1,11 +1,12 @@
 package io.github.edwinvanrooij.vim
 
+import io.github.edwinvanrooij.base.BaseKeyCombination
 import java.util.*
 
-class KeyCombination(
+class VimKeyCombination(
         var mode: String, // the mode in which the shortcut is executed
         val keys: Array<String> // list of keys that form this combination
-) {
+): BaseKeyCombination() {
 
     override fun toString(): String {
         return "KeyCombination(mode='$mode', keys=${Arrays.toString(keys)})"
@@ -15,7 +16,7 @@ class KeyCombination(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as KeyCombination
+        other as VimKeyCombination
 
         if (mode.toLowerCase() != other.mode.toLowerCase()) return false
         if (!Arrays.equals(keys, other.keys)) return false

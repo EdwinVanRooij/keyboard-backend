@@ -1,5 +1,7 @@
 package io.github.edwinvanrooij.i3
 
+import io.github.edwinvanrooij.ALT
+import io.github.edwinvanrooij.CONTROL
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -20,22 +22,17 @@ internal class I3ParserTest {
 
     @Test
     fun getMapping() {
-        val fKey = "f"
-        val vKey = "v"
-        val f7Key = "F7"
-
-        val fShortcut = parser.getMapping(fKey)
-        val vShortcut = parser.getMapping(vKey)
-        val f7Shortcut = parser.getMapping(f7Key)
-
-        // Check if we actually got some shortcuts back
-        assertNotNull(fShortcut)
-        assertNotNull(vShortcut)
-        assertNotNull(f7Shortcut)
-
-        // Check if the description matches expected
-        assertEquals(fShortcut?.action, "fullscreen toggle")
-        assertEquals(vShortcut?.action, "split toggle")
-        assertEquals(f7Shortcut?.action, "exec google-chrome-stable")
+        val keyCombinations = arrayOf(
+                I3KeyCombination(arrayOf(ALT, "f")),
+                I3KeyCombination(arrayOf(ALT, "v")),
+                I3KeyCombination(arrayOf(ALT, "d")),
+                I3KeyCombination(arrayOf(ALT, CONTROL, "l")),
+                I3KeyCombination(arrayOf(ALT, CONTROL, "h")),
+                I3KeyCombination(arrayOf("F7"))
+        )
+        for (k in keyCombinations) {
+            val shortCut = parser.getMapping(k)
+            assertNotNull(shortCut)
+        }
     }
 }
